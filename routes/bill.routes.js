@@ -33,7 +33,6 @@ router.get('/',
             }
 
             res.send(bill[0]);
-            console.log(bill[0]);
 
         } catch (e) {
             res.status(500).json({ message: 'Error' })

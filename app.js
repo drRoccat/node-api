@@ -19,6 +19,10 @@ app.use('/api/auth', require('./routes/auth.routes'));
 
 app.use('/api/bill', require('./routes/bill.routes'));
 
+app.use('/api/categories', require('./routes/category.routes'));
+
+app.use('/api/events', require('./routes/event.routes'));
+
 const PORT = config.get('port') || 5000;
 
 async function start () {

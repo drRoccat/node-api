@@ -11,7 +11,8 @@ const router = Router();
 router.post('/register',
     [
         check('email', 'Incorrect email').isEmail(),
-        check('password', 'Min 6').isLength({ min: 6 })
+        check('password', 'Min 6').isLength({ min: 6 }),
+        check('name', 'Min 3').isLength({ min: 3 })
     ],
     async (req, res) => {
     try {
@@ -24,7 +25,7 @@ router.post('/register',
             })
         }
 
-        const {email, password}  = req.body;
+        const {email, password, name}  = req.body;
 
         const candidate =  await User.findOne({ email });
 
@@ -32,8 +33,8 @@ router.post('/register',
             return res.status(400).json({ message: 'Error, user exist!'  });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const user = new User({ email: email, password: hashedPassword});
+        //const hashedPassword = await bcrypt.hash(password, 12);
+        const user = new User({ email: email, password: password, name: name});
 
         await user.save();
         res.status(201).json({ message: 'User has been created!' });
@@ -68,9 +69,9 @@ router.post(
                 return res.status(400).json({ message: 'Пользователь не найден' })
             }
 
-            const isMatch = await bcrypt.compare(password, user.password);
+            //const isMatch = await bcrypt.compare(password, user.password);
 
-            if (!isMatch) {
+            if (!password) {
                 return res.status(400).json({ message: 'Неверный пароль, попробуйте снова' })
             }
 
@@ -87,12 +88,12 @@ router.post(
         }
     });
 
-router.get('/user/:email',
+router.get('/users',
     async (req, res) => {
 
         try {
 
-            const {email} = req.params;
+            const email = req.query.email;
             const user = await User.findOne({email});
             console.log(email);
 
@@ -104,7 +105,13 @@ router.get('/user/:email',
             //let decoded = jwt.verify(user[0].password, config.get('jwtSecret'));
             //console.log(decoded.foo);
 
-            res.send(user);
+            res.send(
+                {
+                    email : user.email,
+                    password: user.password,
+                    name: user.name
+                }
+            );
 
         } catch (e) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
