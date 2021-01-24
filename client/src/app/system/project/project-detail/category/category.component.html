@@ -1,0 +1,34 @@
+<!--<mat-spinner style="margin-left: 47%;" *ngIf="!isLoaded"></mat-spinner>-->
+<kendo-grid
+  *ngIf="isLoaded"
+  [data]="categories"
+  [style.height.px]="458"
+  [selectable]="{enabled: true }"
+  (selectionChange)='onGridSelectionChange($event)'
+  (add)="addHandler()"
+  #grid="kendoGrid"
+>
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoGridAddCommand [primary]="true">Add new</button>
+    <button kendoButton [primary]="true" [disabled]="!isRowSelected" (click)="editHandler()">Edit</button>
+    <button kendoButton [primary]="true" [disabled]="!(isRowSelected && isSelectedRowBlank)" (click)="removeHandler()">Delete</button>
+  </ng-template>
+  <kendo-grid-column field="name" title="Name" [headerStyle]="{'font-size' : '14px'}" width="100"></kendo-grid-column>
+  <kendo-grid-column field="income" title="Income" [headerStyle]="{'font-size' : '14px'}" width="110"></kendo-grid-column>
+  <kendo-grid-column field="outcome" title="Outcome"  [headerStyle]="{'font-size' : '14px'}" width="115"></kendo-grid-column>
+
+  <kendo-grid-pdf [fileName]="fileName"   paperSize="A4" [repeatHeaders]="true" [landscape]="false" [scale]="1">
+    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+    <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+      <div class="page-template">
+        <div class="header1">
+          {{projectName}} Report (categories)
+        </div>
+        <div class="footer1">
+          Page {{ pageNum }} of {{ totalPages }}
+        </div>
+      </div>
+    </ng-template>
+  </kendo-grid-pdf>
+
+</kendo-grid>

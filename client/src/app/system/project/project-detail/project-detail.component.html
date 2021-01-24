@@ -1,0 +1,144 @@
+<div class="pull-left">
+  <button mat-raised-button color="primary" [routerLink]="['/system','project']">
+    <i class="fa fa-arrow-left fa-lg"></i>
+  </button>
+</div>
+
+<div class="title-block">
+
+  <h3 class="title pull-left" *ngIf="isLoaded">
+    {{project.name}} <span class="sparkline bar"></span>
+  </h3>
+
+</div>
+<section class="section">
+
+  <mat-spinner style="margin-left: 47%;" *ngIf="!isLoaded"></mat-spinner>
+
+  <div class="row" *ngIf="isLoaded">
+
+    <div class="col col-xs-12 col-sm-6 col-md-3 col-xl-3">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <p> Earnings </p>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="value">{{project.earnings | number:'1.0-2'}} {{project.currency}}</div>
+        </mat-card-content>
+        <mat-progress-bar mode="determinate" color="primary" value="100"></mat-progress-bar>
+      </mat-card>
+    </div>
+
+    <!--<div class="w-100"></div>-->
+
+    <div class="col col-xs-12 col-sm-6 col-md-3 col-xl-3">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <p> Consumption </p>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="value">{{project.consumption | number:'1.0-2'}} {{project.currency}}</div>
+        </mat-card-content>
+        <mat-progress-bar mode="determinate" color="primary" value="100"></mat-progress-bar>
+      </mat-card>
+    </div>
+
+    <div class="col col-xs-12 col-sm-6 col-md-3 col-xl-3">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <p > Profit </p>
+          </mat-card-title>
+          <div style="width: 100%; text-align: right">
+            <span
+              class="popup"
+              matTooltip="Relatively to planned profit"
+            >
+              {{(project.profit / project.plannedProfit) * 100 | number:'1.0-1'}}%
+            </span>
+          </div>
+
+        </mat-card-header>
+        <mat-card-content>
+          <div class="value">{{project.profit | number:'1.0-2'}} {{project.currency}}</div>
+        </mat-card-content>
+        <mat-progress-bar mode="determinate" color="primary" value="100"></mat-progress-bar>
+      </mat-card>
+    </div>
+
+    <div class="col col-xs-12 col-sm-6 col-md-3 col-xl-3">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <p> Relevance </p>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="value">{{project.relevance | number:'1.1-1'}}%</div>
+        </mat-card-content>
+        <mat-progress-bar mode="determinate" color="accent" value="{{project.relevance}}"></mat-progress-bar>
+      </mat-card>
+    </div>
+
+  </div>
+
+  <div class="row" *ngIf="isLoaded">
+
+    <div class="col col-xs-12 col-sm-12 col-md-4 col-xl-4">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <h5>Categories</h5>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-category [projectId]="project._id" (refresh)="ngOnInit()">></app-category>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col col-xs-12 col-sm-12 col-md-4 col-xl-4">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <h5><span style="color: green">Earnings </span>categories</h5>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-project-charts [data]="incomeChartData"></app-project-charts>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+
+    <div class="col col-xs-12 col-sm-12 col-md-4 col-xl-4">
+      <mat-card class="card-margin">
+        <mat-card-header>
+          <mat-card-title>
+            <h5><span style="color: red">Consumption </span>categories</h5>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-project-charts [data]="outcomeChartData"></app-project-charts>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </div>
+
+  <div *ngIf="isLoaded">
+    <app-history-page [projectId]="project._id" (refresh)="ngOnInit()"></app-history-page>
+  </div>
+  <!--<app-project-history [projectId]="project._id"></app-project-history>-->
+
+
+</section>
+
+
+
+

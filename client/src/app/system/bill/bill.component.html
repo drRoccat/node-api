@@ -1,0 +1,22 @@
+<div class="pull-left">
+  <button mat-raised-button color="primary" (click)="transfer()">
+    <i class="fa fa-exchange fa-lg"></i>
+  </button>
+</div>
+<div class="pull-right">
+  <button mat-raised-button color="primary" (click)="onRefresh()">
+    <i class="fa fa-refresh fa-lg"></i>
+  </button>
+</div>
+<div class="title-block">
+  <h3 class="title pull-left">
+    Bill <span class="sparkline bar"></span>
+  </h3>
+</div>
+<section class="section">
+  <mat-spinner style="margin-left: 47%;" *ngIf="!isLoaded"></mat-spinner>
+  <div class="row"*ngIf="isLoaded">
+    <app-bill-card [bill]="bill" [currency]="currency"></app-bill-card>
+    <app-bill-rate [currency]="currency"></app-bill-rate>
+  </div>
+</section>

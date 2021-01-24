@@ -1,9 +1,12 @@
-const {Schema, model, Types} = require('mongoose');
+const {Schema, model, Types, ObjectID} = require('mongoose');
 
 const schema = new Schema({
-    id: {type: Number, required: true},
+    //_id: {type: ObjectID, required: true},
     name: {type: String, required: true},
-    capacity: {type: Number, required: true }
+    income: {type: Number, required: true },
+    outcome: {type: Number, required: true },
+    projectId: {type: String, required: true },
+    userId: {type: String, required: true}
 });
 
 module.exports = model('Category', schema);

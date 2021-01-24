@@ -1,0 +1,98 @@
+<!--<kendo-dialog *ngIf="active" >
+  <kendo-dialog-titlebar>qwe
+  </kendo-dialog-titlebar>
+
+  <form  [formGroup]="editForm">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="type" class="control-label">Type</label>
+          <label for="type" class="control-label"> Type
+            <input type="text" class="k-textbox" formControlName="type"/>
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <kendo-dialog-actions>
+    <button class="k-button">Cancel</button>
+    <button class="k-button k-primary">Save</button>
+  </kendo-dialog-actions>
+</kendo-dialog>-->
+
+
+<h1 mat-dialog-title>{{ data.isNew ? 'Add new Event' : 'Event' }}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="editForm">
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="project" class="control-label">Project</label>
+          <kendo-dropdownlist
+            formControlName="project"
+            [data]="listProject"
+            width="100"
+            [readonly] = readonlyPro
+          >
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="category" class="control-label">Category</label>
+          <kendo-dropdownlist formControlName="category" [data]="listCategory" width="100" [readonly] = readonlyCat>
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="amount" class="control-label">Amount</label>
+          <kendo-numerictextbox
+            [min]="0" [autoCorrect]="true" formControlName="amount">
+          </kendo-numerictextbox>
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="bill" class="control-label">Bill</label>
+          <kendo-dropdownlist formControlName="bill" [data]="listBill" width="100" readonly = "true">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="type" class="control-label">Type</label>
+          <kendo-dropdownlist formControlName="type" [data]="listType" width="100">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="date" class="control-label">Date</label>
+          <!--<input type="text" class="k-textbox" formControlName="date"/>-->
+          <kendo-datepicker formControlName="date" [format]="'dd-MMM-yyyy'"></kendo-datepicker>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-12">
+        <div class="form-group">
+          <label for="description" class="control-label">Description</label>
+          <input type="text" class="k-textbox" formControlName="description"/>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="width: 48%" (click)="onCancel()">{{ viewMod ? 'Close' : 'Cancel' }}</button>
+  <button mat-button style="width: 48%" (click)="onSave()" *ngIf="!viewMod" [disabled]="editForm.invalid">Save</button>
+</div>

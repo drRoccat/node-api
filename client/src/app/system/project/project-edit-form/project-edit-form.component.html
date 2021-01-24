@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>{{ data.isNew ? 'Add new Project' : 'Edit Project' }}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="editForm">
+    <div class="row">
+      <div class="col col-lg-4">
+        <div class="form-group">
+          <label for="name" class="control-label">Name</label>
+          <input type="text" class="k-textbox" formControlName="name"/>
+        </div>
+      </div>
+      <div class="col col-lg-4">
+        <div class="form-group">
+          <label for="currency" class="control-label">Currency</label>
+          <kendo-dropdownlist formControlName="currency" [data]="listBill" width="100" [readonly] = !data.isNew>
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="col col-lg-4">
+        <div class="form-group">
+          <label for="plannedProfit" class="control-label">Planned Profit</label>
+          <kendo-numerictextbox
+            [min]="1" [autoCorrect]="true" formControlName="plannedProfit">
+          </kendo-numerictextbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="earnings" class="control-label">Earnings</label>
+          <input type="text" class="k-textbox" formControlName="earnings" [readonly] = true />
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="consumption" class="control-label">Consumption</label>
+          <input type="text" class="k-textbox" formControlName="consumption" [readonly] = true />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="profit" class="control-label">Profit</label>
+          <kendo-numerictextbox
+            formControlName="profit" [readonly] = true>
+          </kendo-numerictextbox>
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="relevance" class="control-label">Relevance</label>
+          <kendo-numerictextbox
+            formControlName="relevance" [readonly] = true>
+          </kendo-numerictextbox>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="width: 48%" (click)="onCancel()">Cancel</button>
+  <button mat-button style="width: 48%" (click)="onSave()" [disabled]="editForm.invalid">Save</button>
+</div>

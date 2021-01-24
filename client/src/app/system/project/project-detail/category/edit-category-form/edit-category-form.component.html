@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>{{ data.isNew ? 'Add new Category' : 'Edit Category' }}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="editForm">
+    <div class="row">
+      <div class="col col-lg-12">
+        <div class="form-group">
+          <label for="name" class="control-label">Name</label>
+          <input type="text" class="k-textbox" formControlName="name"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="income" class="control-label">Income</label>
+          <input type="text" class="k-textbox" formControlName="income" [readonly] = true />
+        </div>
+      </div>
+      <div class="col col-lg-6">
+        <div class="form-group">
+          <label for="outcome" class="control-label">Outcome</label>
+          <input type="text" class="k-textbox" formControlName="outcome" [readonly] = true />
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="width: 48%" (click)="onCancel()">Cancel</button>
+  <button mat-button style="width: 48%" (click)="onSave()" [disabled]="editForm.invalid">Save</button>
+</div>

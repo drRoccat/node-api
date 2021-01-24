@@ -1,0 +1,14 @@
+<div #containerRef class="chart-center">
+  <ngx-charts-pie-chart
+    [view]="[containerRef.offsetWidth, 400]"
+    [animations]="true"
+    [results]="data"
+    [legend]="true"
+    [scheme]="colorScheme"
+    [legendPosition]="'below'"
+    [explodeSlices]="false"
+    [labels]="true"
+    [doughnut]="false">
+  </ngx-charts-pie-chart>
+</div>
+

@@ -1,16 +1,17 @@
 const {Router} = require('express');
 const Category = require('../models/Category');
+const Project = require('../models/Project');
 const router = Router();
 
 
 router.post('/',
     async (req, res) => {
         try {
+            const userId = req.headers.user;
+            const {name, income, outcome, projectId}  = req.body;
 
-            const {name, capacity}  = req.body;
 
-
-            const category = new Category({ id:3, name: name, capacity: capacity});
+            const category = new Category({name: name, income: income, outcome: outcome, projectId: projectId, userId: userId});
 
             await category.save();
             res.status(201).json({ message: 'Category has been created!' });
@@ -25,8 +26,8 @@ router.get('/',
     async (req, res) => {
 
         try {
-
-            const category = await Category.find();
+            const userId = req.headers.user;
+            const category = await Category.find({userId: userId});
 
             if (!category) {
                 return res.status(400).json({ message: 'Not found' })
@@ -46,7 +47,7 @@ router.get('/:id',
         try {
 
             const id = req.params.id;
-            const category = await Category.findOne({id});
+            const category = await Category.findById(id);
 
             if (!category) {
                 return res.status(400).json({ message: 'Not found'  })
@@ -60,17 +61,58 @@ router.get('/:id',
     }
 );
 
+router.get('/pro/:id',
+    async (req, res) => {
+
+        try {
+
+            const id = req.params.id;
+            const category = await Category.find({projectId: id});
+            // console.log(category);
+
+            if (!category) {
+                return res.status(400).json({ message: 'Not found'  })
+            }
+
+            res.send(category);
+
+        } catch (e) {
+            res.status(500).json({ message: 'Error' })
+        }
+    }
+);
+
+router.delete('/:id',
+    async (req, res) => {
+
+        try {
+
+          const id = req.params.id;
+
+          const deleteResult = await Category.findByIdAndDelete(id);
+
+          if (deleteResult != undefined) {
+              return res.status(200).json({ message: 'Category has been deleted!'  })
+          }
+
+        } catch (e) {
+            res.status(500).json({ message: 'Error' })
+        }
+
+    }
+);
+
 router.put('/:id',
     async (req, res) => {
 
         const id = req.params.id;
-        const postData = req.body;
+        const categoryData = req.body;
 
-        const modificationResult = await Category.replaceOne({id: id}, postData);
+        const modificationResult = await Category.replaceOne({_id: id}, categoryData);
 
         if (modificationResult.n) {
-            const modifiedPost = await Category.findOne({id});
-            res.send(modifiedPost);
+            const modifiedCategory = await Category.findOne({id});
+            res.send(modifiedCategory);
         } else {
             return res.status(400).json({message: 'Not found'})
         }

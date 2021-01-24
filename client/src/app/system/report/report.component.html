@@ -1,0 +1,70 @@
+<div class="title-block" >
+  <h3 class="title pull-left">
+    Reports <span class="sparkline bar"></span>
+  </h3>
+</div>
+
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Select project</ng-template>
+      <mat-form-field>
+        <label for="project" class="control-label">Project</label>
+        <mat-select formControlName="firstCtrl" required>
+          <mat-option [value]="qwe.value">{{qwe.name}}</mat-option>
+          <mat-option *ngFor="let pro of pros" [value]="pro._id">
+            {{pro.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="PDF name">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="secondCtrl"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Are you ready to print?</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="set()" [disabled]="firstFormGroup.invalid && secondFormGroup.invalid">Print</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+<div style="position: absolute; left: -1000px; top: 0;" *ngIf="isPrintEv">
+  <app-history-page style="position: absolute; left: -3000px; top: 0;"
+                    [print]="isPrintEv"
+                    [projectId]="proId"
+                    [printName]="printName"
+                    [projectName]="proName"
+                    (refresh)="onRefresh()"
+  >
+  </app-history-page>
+</div>
+<div style="position: absolute; left: -1000px; top: 0;" *ngIf="isPrintCat">
+  <app-category style="position: absolute; left: -3000px; top: 0;"
+                [print]="isPrintCat"
+                [projectId]="proId"
+                [printName]="printName"
+                [projectName]="proName"
+                (refresh)="onRefresh()"
+  >
+  </app-category>
+</div>
+
+
+

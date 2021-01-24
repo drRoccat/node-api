@@ -1,0 +1,48 @@
+<div class="main-wrapper">
+  <div class="app" [class.example-is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button mat-icon-button class="example-icon" aria-label="icon-button with menu icon" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1>Money Manager</h1>
+      <span class="example-spacer"></span>
+      <button mat-raised-button (click)="onLogout()">
+        Logout
+      </button>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+
+    <mat-sidenav #snav mode="side" class="side" [mode]="mobileQuery.matches ? 'over' : 'side'" >
+      <mat-nav-list>
+        <mat-list-item routerLinkActive="active" [routerLink]="['/system','bill']">
+          <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
+          <a matLine > Bill </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item routerLinkActive="active" [routerLink]="['/system','history']">
+          <mat-icon mat-list-icon>history</mat-icon>
+          <a matLine > History </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item routerLinkActive="active" [routerLink]="['/system','project']">
+          <mat-icon mat-list-icon>work</mat-icon>
+          <a matLine > Projects </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item routerLinkActive="active" [routerLink]="['/system','report']">
+          <mat-icon mat-list-icon>print</mat-icon>
+          <a matLine > Reports </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <article class="content dashboard-page">
+        <router-outlet></router-outlet>
+      </article>
+    </mat-sidenav-content>
+
+    </mat-sidenav-container>
+  </div>
+</div>
+

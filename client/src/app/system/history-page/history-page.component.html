@@ -1,0 +1,63 @@
+<div class="title-block" *ngIf="projectId === undefined">
+  <h3 class="title pull-left">
+    History <span class="sparkline bar"></span>
+  </h3>
+  <!--<div class="pull-right">
+    <button mat-raised-button color="primary" (click)="pdf.saveAs('test.pdf')">
+      <i class="fa fa-refresh fa-lg"></i>
+    </button>
+  </div>-->
+</div>
+<mat-spinner style="margin-left: 47%;" *ngIf="!isLoaded"></mat-spinner>
+<!--<kendo-pdf-export #pdf paperSize="A4" landscape="true" margin="2cm" [scale]="0.5" >-->
+<kendo-grid
+  *ngIf="isLoaded"
+  [kendoGridBinding]="events"
+  [style.height.%]="100"
+  [selectable]="{enabled: true }"
+  (selectionChange)='onGridSelectionChange($event)'
+  (add)="addHandler()"
+  (edit)="editHandler()"
+  (remove)="removeHandler()"
+  [pageable]="true" [pageSize]="10"
+  #grid="kendoGrid"
+>
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoGridAddCommand [primary]="true">Add new</button>
+    <button kendoButton [primary]="true" [disabled]="!isRowSelected" (click)="editHandler(true)">View</button>
+    <button kendoGridEditCommand [primary]="true" [disabled]="!isRowSelected">Edit</button>
+    <button kendoGridRemoveCommand [primary]="true" [disabled]="!isRowSelected">Delete</button>
+    <!--<button class="k-button" (click)="exportToPDF()">Export Grid to PDF...</button>
+    <button kendoGridPDFCommand >Export to PDF</button>-->
+  </ng-template>
+  <kendo-grid-column field="amount" title="Amount" [headerStyle]="{'font-size' : '1.2rem'}" width="120"></kendo-grid-column>
+  <kendo-grid-column field="bill" title="Bill" [headerStyle]="{'font-size' : '17px'}" width="120"></kendo-grid-column>
+  <kendo-grid-column field="date" title="Date" [format]="{ date: 'long' }" [headerStyle]="{'font-size' : '17px'}" width="120"></kendo-grid-column>
+  <kendo-grid-column field="project" title="Project" *ngIf="projectId === undefined" [headerStyle]="{'font-size' : '17px'}" width="120"></kendo-grid-column>
+  <kendo-grid-column field="category" title="Category" [headerStyle]="{'font-size' : '17px'}" width="130"></kendo-grid-column>
+  <kendo-grid-column field="type" title="Type" [headerStyle]="{'font-size' : '17px'}" width="120">
+
+    <ng-template kendoGridCellTemplate let-dataItem>
+              <span [ngClass]="getClass(dataItem)">
+                {{ dataItem.type }}
+              </span>
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-pdf [fileName]="fileName" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true" [scale]="0.8">
+    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+    <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+      <div class="page-template">
+        <div class="header1">
+          <!--<div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>-->
+          {{projectName}} Report (history)
+        </div>
+        <div class="footer1">
+          Page {{ pageNum }} of {{ totalPages }}
+        </div>
+      </div>
+    </ng-template>
+  </kendo-grid-pdf>
+
+</kendo-grid>
+<!--</kendo-pdf-export>-->

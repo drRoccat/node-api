@@ -1,0 +1,90 @@
+<div class="title-block">
+  <h3 class="title pull-left">
+    Projects <span class="sparkline bar"></span>
+  </h3>
+  <div class="pull-right">
+    <mat-slide-toggle
+      class="example-margin"
+      color="primary"
+      (change)="test($event)">
+      (Show closed projects)
+    </mat-slide-toggle>
+  </div>
+</div>
+
+<mat-spinner style="margin-left: 47%;" *ngIf="!isLoaded"></mat-spinner>
+<kendo-grid
+  *ngIf="isLoaded"
+  [data]="projects"
+  [style.height.%]="100"
+  [selectable]="{enabled: true }"
+  (selectionChange)='onGridSelectionChange($event)'
+  (add)="addHandler()"
+  (edit)="editHandler()"
+>
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoButton [primary]="true" [disabled]="!isRowSelected" (click)="openProject()">Open</button>
+    <button kendoGridAddCommand [primary]="true">Add</button>
+    <button kendoGridEditCommand [primary]="true" [disabled]="!isRowSelected">Edit</button>
+    <button kendoButton [primary]="true" *ngIf="(isRowSelected && isSelectedRowBlank)" (click)="removeHandler()">Delete</button>
+    <button kendoButton [primary]="true" *ngIf="(isRowSelected && isSelectedRowActive && !isSelectedRowBlank)" (click)="closeProject()">Close</button>
+   </ng-template>
+   <kendo-grid-column
+     field="name" title="Name"
+     [headerStyle]="{'font-size' : '1.2rem'}"
+     width="120"
+   >
+   </kendo-grid-column>
+   <kendo-grid-column
+     field="earnings"
+     title="Earnings"
+     [headerStyle]="{'font-size' : '17px'}"
+     width="125"
+   >
+     <ng-template kendoGridCellTemplate let-dataItem>
+          <span [style.color]="'green'">
+            {{ dataItem.earnings | number:'1.0-2'}} {{ dataItem.currency }}
+          </span>
+     </ng-template>
+   </kendo-grid-column>
+   <kendo-grid-column
+     field="consumption"
+     title="Consumption"
+     [headerStyle]="{'font-size' : '17px'}"
+     width="160"
+   >
+     <ng-template kendoGridCellTemplate let-dataItem>
+          <span [style.color]="'red'">
+            -{{ dataItem.consumption | number:'1.0-2'}} {{ dataItem.currency }}
+          </span>
+     </ng-template>
+   </kendo-grid-column>
+   <kendo-grid-column
+     field="profit"
+     title="Profit"
+     [headerStyle]="{'font-size' : '17px'}"
+     width="120"
+   >
+     <ng-template kendoGridCellTemplate let-dataItem>
+          <span>
+            {{ dataItem.profit | number:'1.0-2'}} {{ dataItem.currency }}
+          </span>
+     </ng-template>
+   </kendo-grid-column>
+   <kendo-grid-column
+     field="relevance"
+     title="Relevance"
+     [format]="'# \\%'"
+     [headerStyle]="{'font-size' : '17px'}"
+     width="135"
+   >
+   </kendo-grid-column>
+  <kendo-grid-column
+    field="active"
+    title="Active"
+    [headerStyle]="{'font-size' : '17px'}"
+    width="135"
+    *ngIf="showClosed"
+  >
+  </kendo-grid-column>
+</kendo-grid>
