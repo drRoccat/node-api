@@ -14,11 +14,11 @@ export class UsersService extends BaseApi{
   }
 
   public login(user: User): Observable<any> {
-    return this.httpClient.post<any>('http://localhost:5000/api/auth/login', user);
+    return this.httpClient.post<any>('http://bilous.website:5000/api/auth/login', user);
   }
 
   public createNewUser(user: User): Observable<any> {
-    return this.httpClient.post<any>('http://localhost:5000/api/auth/register', user);
+    return this.httpClient.post<any>('http://bilous.website:5000/api/auth/register', user);
   }
 
 }
