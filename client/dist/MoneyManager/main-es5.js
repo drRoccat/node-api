@@ -6647,12 +6647,12 @@
         _createClass(UsersService, [{
           key: "login",
           value: function login(user) {
-            return this.httpClient.post('http://localhost:5000/api/auth/login', user);
+            return this.httpClient.post('http://bilous.website:5000/api/auth/login', user);
           }
         }, {
           key: "createNewUser",
           value: function createNewUser(user) {
-            return this.httpClient.post('http://localhost:5000/api/auth/register', user);
+            return this.httpClient.post('http://bilous.website:5000/api/auth/register', user);
           }
         }]);
 

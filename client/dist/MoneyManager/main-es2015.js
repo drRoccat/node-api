@@ -3224,10 +3224,10 @@ class UsersService extends _core_base_api__WEBPACK_IMPORTED_MODULE_1__["BaseApi"
         this.httpClient = httpClient;
     }
     login(user) {
-        return this.httpClient.post('http://localhost:5000/api/auth/login', user);
+        return this.httpClient.post('http://bilous.website:5000/api/auth/login', user);
     }
     createNewUser(user) {
-        return this.httpClient.post('http://localhost:5000/api/auth/register', user);
+        return this.httpClient.post('http://bilous.website:5000/api/auth/register', user);
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"])); };
