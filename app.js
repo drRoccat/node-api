@@ -2,9 +2,10 @@ const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
 const rjwt = require('restify-jwt-community');
+const path = require('path');
+
 
 const app = express();
-
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
@@ -32,6 +33,14 @@ app.use('/api/events', require('./routes/event.routes'));
 app.use('/api/projects', require('./routes/project.routes'));
 
 
+if (process.env.NODE_ENV ===) {
+  app.use('/', express.static(path.join(__dirname, 'client', 'dist', 'MoneyManager')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'MoneyManager', 'index.html'))
+  });
+}
+
 
 const PORT = config.get('port') || 5000;
 
@@ -42,8 +51,8 @@ async function start () {
             useUnifiedTopology: true,
             useCreateIndex: true
         });
-        app.listen(PORT, () => console.log(`API app started on port ${PORT}...`));
-        // app.listen(5000, '0.0.0.0', () => console.log(`API app started on port ${PORT}...`));
+        //app.listen(PORT, () => console.log(`API app started on port ${PORT}...`));
+        app.listen(5000, '0.0.0.0', () => console.log(`API app started on port ${PORT}...`));
     } catch (e) {
        console.log('Server error', e.message);
        process.exit(1);
